@@ -1,6 +1,6 @@
 ## proploc - Java properties l10n tool
 
-Extracts new/untranslated messages from language properties when during
+Extracts new/changed messages from language properties when during
 development only master files were updated by developers. Extracted messages can be sent to
 translators and later reintegrated in sources.
 
@@ -15,7 +15,7 @@ If You have two directories with properties from previous (RelX) and current (Re
 java -jar proploc.jar -totr RelX RelY
 ```
 
-would produce a set of files named "UNTRANSLATED_<original_filename>_<lang_code>.properties".
+would produce a set of files named "UNTRANSLATED_<original_filename>_<lang_code>.properties" containing properties from <original_filename>.properties which have no translation in language-specific properties file or the master text was changed between RelX and RelY.
 
 ## License
 
