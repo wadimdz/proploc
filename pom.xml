@@ -32,10 +32,39 @@
 		</dependency>
 	</dependencies>
 
-	<build>
+	 <build>
 		<plugins>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<configuration>
+			  <archive>
+				<manifest>
+				  <addClasspath>true</addClasspath>
+				  <classpathPrefix>./lib/</classpathPrefix>
+				  <mainClass>org.rakietowa.proploc.ProplocMain</mainClass>
+				</manifest>
+			  </archive>
+			</configuration>
+		  </plugin>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<executions>
+			  <execution>
+				<phase>package</phase>
+				<goals>
+				  <goal>single</goal>
+				</goals>
+				<configuration>
+				  <descriptor>src/main/resources/assembly/assembly.xml</descriptor>
+				</configuration>
+			  </execution>
+			</executions>
+		  </plugin>
 		</plugins>
 	</build>
+
 
 
 </project>
