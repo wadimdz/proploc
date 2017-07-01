@@ -1,12 +1,14 @@
-## proploc
+## proploc - Java properties l10n tool
 
-Property l10n tool. Extracts new/untranslated messages from language properties when during
+Extracts new/untranslated messages from language properties when during
 development only master files were updated by developers. Extracted messages can be sent to
 translators and later reintegrated in sources.
 
 ## Example
 Precondition: master property files have no language suffix (for example: mytexts.properties) 
 and properties files with other languages have one (for example: mytexts_pl.properties).
+
+
 If You have two directories with properties from previous (RelX) and current (RelY) release:
 
 ```
