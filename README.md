@@ -15,7 +15,7 @@ If You have two directories with properties from previous (RelX) and current (Re
 java -jar proploc.jar -totr RelX RelY
 ```
 
-would produce a set of files named "UNTRANSLATED_<original_filename>_<lang>.properties".
+would produce a set of files named "UNTRANSLATED_<original_filename>_<lang_code>.properties".
 
 ## License
 
