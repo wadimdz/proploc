@@ -72,7 +72,7 @@ public class PropComparator {
 	}
 
 	public List<String> getKeysOnlyInRight() {
-		List<String> rightList = new ArrayList<String>(left.getKeys());
+		List<String> rightList = new ArrayList<String>(right.getKeys());
 
 		rightList.removeAll(left.getKeys());
 		return rightList;

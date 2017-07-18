@@ -47,6 +47,9 @@ public class ProplocMain {
 			impl.findUntranslated(args[1], args[2]);
 		} else if (args[0].equals("-check")) {
 			// find duplicates, ...
+		} else if (args[0].equals("-integrate")) {
+			ProplocImpl impl = new ProplocImpl();
+			impl.integrateTranslated(args[1], args[2], args[3]);
 		}
 
 	}
