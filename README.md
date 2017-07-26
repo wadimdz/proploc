@@ -8,7 +8,7 @@ translators and later reintegrated in sources.
 Precondition: master property files have no language suffix (for example: mytexts.properties) 
 and properties files with other languages have one (for example: mytexts_pl.properties).
 
-
+### Extracting
 If You have two directories with properties from previous (RelX) and current (RelY) release:
 
 ```
@@ -16,6 +16,15 @@ java -jar proploc.jar -totr RelX RelY
 ```
 
 would produce a set of files named "UNTRANSLATED_<original_filename>_<lang_code>.properties" containing properties from <original_filename>.properties which have no translation in language-specific properties file or the master text was changed between RelX and RelY.
+
+### Integration
+When translations are done, then out them in a directory (with "<original_filename>_<lang_code>.properties" names) and run:
+
+```
+java -jar proploc.jar -integrate RelY translations RelYnew
+```
+
+Then the "RelYnew" directory will contain translated files which use strings from translated files.  
 
 ## License
 
