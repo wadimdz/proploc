@@ -17,6 +17,7 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.io.FileHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.rakietowa.proploc.data.PropFile;
 
 public class ProplocImpl {
@@ -75,7 +76,7 @@ public class ProplocImpl {
 				for (String key : base.getKeys()) {
 					String value = newTrans.getStringValue(key) != null ? newTrans.getStringValue(key)
 							: lang.getStringValue(key);
-					if (value != null) {
+					if (value != null && StringUtils.isNotEmpty(value.trim())) {
 						newContents.put(key, value);
 					}
 				}
