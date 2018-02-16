@@ -24,7 +24,7 @@ When translations are done, then put them in a directory (with "<original_filena
 java -jar proploc.jar -integrate RelY translations RelYnew
 ```
 
-Then the "RelYnew" directory will contain property files which use strings from translated files.  
+Then the "RelYnew" directory will contain property files which use strings from translated files found in "translations" directory.  
 
 ## License
 
