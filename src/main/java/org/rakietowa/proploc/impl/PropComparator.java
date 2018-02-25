@@ -6,16 +6,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.rakietowa.proploc.data.IPropertyPersister;
 import org.rakietowa.proploc.data.PropFile;
 
 public class PropComparator {
 	private PropFile left;
 	private PropFile right;
+	private IPropertyPersister propPersister;
 
-	public PropComparator(String leftName, String rightName) throws ConfigurationException {
-		left = new PropFile(leftName);
-		right = new PropFile(rightName);
+	public PropComparator(String leftName, String rightName, IPropertyPersister persister) {
+		propPersister = persister;
+		left = propPersister.readPropertyFile(leftName);
+		right = propPersister.readPropertyFile(rightName);
 	}
 
 	public PropComparator(PropFile leftProp, PropFile rightProp) {
@@ -89,7 +91,6 @@ public class PropComparator {
 					changed.add(key);
 				}
 			}
-
 		}
 
 		return changed;
@@ -105,9 +106,8 @@ public class PropComparator {
 				if (oldVal.equals(newVal)) {
 					same.add(key);
 				}
-			}		
+			}
 		}
 		return same;
 	}
-
 }

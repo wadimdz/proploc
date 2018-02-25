@@ -5,23 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.FileBasedConfiguration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Parameters;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class PropFile {
-	private Parameters parameters = new Parameters();
-
-	private FileBasedConfigurationBuilder<FileBasedConfiguration> builder;
-
 	private Configuration conf;
 
-	public PropFile(String fname) throws ConfigurationException {
-		builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class);
-		builder.configure(parameters.fileBased().setFileName(fname));
-		conf = builder.getConfiguration();
+	public PropFile(Configuration configuration) {
+		conf = configuration;
 	}
 
 	public Configuration getConfiguration() {

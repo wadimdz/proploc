@@ -17,6 +17,8 @@
 package org.rakietowa.proploc;
 
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.rakietowa.proploc.data.FilePropertyPersister;
+import org.rakietowa.proploc.data.IPropertyPersister;
 import org.rakietowa.proploc.impl.PropComparator;
 import org.rakietowa.proploc.impl.ProplocImpl;
 
@@ -33,14 +35,16 @@ public class ProplocMain {
 			printInfo();
 			return;
 		}
+		
+		IPropertyPersister persisterImpl = new FilePropertyPersister();
 
 		if (args[0].equals("-diff")) {
 			// compare properties
-			PropComparator comp = new PropComparator(args[1], args[2]);
+			PropComparator comp = new PropComparator(args[1], args[2], persisterImpl);
 			comp.compareFilesWithPrint();
 		} else if (args[0].equals("-totr")) {
 			// create files with untranslated strings
-			ProplocImpl impl = new ProplocImpl();
+			ProplocImpl impl = new ProplocImpl(persisterImpl);
 			impl.findUntranslated(args[1], args[2]);
 		} else if (args[0].equals("-check")) {
 			// find duplicates, ...
@@ -49,7 +53,7 @@ public class ProplocMain {
 				printInfo();
 				return;
 			}
-			ProplocImpl impl = new ProplocImpl();
+			ProplocImpl impl = new ProplocImpl(persisterImpl);
 			impl.integrateTranslated(args[1], args[2], args[3]);
 		}
 
