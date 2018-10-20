@@ -1,4 +1,4 @@
-package org.rakietowa.proploc.data;
+package org.rakietowa.proploc.data.impl;
 
 import java.io.File;
 import java.util.HashMap;
@@ -10,6 +10,8 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.io.FileHandler;
+import org.rakietowa.proploc.data.IPropContainer;
+import org.rakietowa.proploc.data.IPropertyPersister;
 
 public class FilePropertyPersister implements IPropertyPersister {
 
@@ -25,7 +27,7 @@ public class FilePropertyPersister implements IPropertyPersister {
 	}
 
 	@Override
-	public PropFile readPropertyFile(String path) {
+	public IPropContainer readPropertyFile(String path) {
 		try {
 			Parameters parameters = new Parameters();
 			FileBasedConfigurationBuilder<FileBasedConfiguration> builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(

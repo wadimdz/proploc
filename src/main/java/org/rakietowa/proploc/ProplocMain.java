@@ -17,8 +17,8 @@
 package org.rakietowa.proploc;
 
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.rakietowa.proploc.data.FilePropertyPersister;
 import org.rakietowa.proploc.data.IPropertyPersister;
+import org.rakietowa.proploc.data.impl.FilePropertyPersister;
 import org.rakietowa.proploc.impl.PropComparator;
 import org.rakietowa.proploc.impl.ProplocImpl;
 

@@ -6,12 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.rakietowa.proploc.data.IPropContainer;
 import org.rakietowa.proploc.data.IPropertyPersister;
-import org.rakietowa.proploc.data.PropFile;
 
 public class PropComparator {
-	private PropFile left;
-	private PropFile right;
+	private IPropContainer left;
+	private IPropContainer right;
 	private IPropertyPersister propPersister;
 
 	public PropComparator(String leftName, String rightName, IPropertyPersister persister) {
@@ -20,7 +20,7 @@ public class PropComparator {
 		right = propPersister.readPropertyFile(rightName);
 	}
 
-	public PropComparator(PropFile leftProp, PropFile rightProp) {
+	public PropComparator(IPropContainer leftProp, IPropContainer rightProp) {
 		left = leftProp;
 		right = rightProp;
 	}

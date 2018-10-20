@@ -10,12 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.rakietowa.proploc.data.IPropContainer;
 import org.rakietowa.proploc.data.IPropertyPersister;
-import org.rakietowa.proploc.data.PropFile;
 
 public class ProplocImpl {
 
 	private IPropertyPersister propPersister;
+
 
 	public ProplocImpl(IPropertyPersister persisterImpl) {
 		propPersister = persisterImpl;
@@ -58,9 +59,9 @@ public class ProplocImpl {
 					System.out.println(" no new translations found. Skipped.");
 					continue;
 				}
-				PropFile base = propPersister.readPropertyFile(currFiles.get(baseFile).getPath());
-				PropFile lang = propPersister.readPropertyFile(currFiles.get(fname).getPath());
-				PropFile newTrans = propPersister.readPropertyFile(translatedFiles.get(fname).getPath());
+				IPropContainer base = propPersister.readPropertyFile(currFiles.get(baseFile).getPath());
+				IPropContainer lang = propPersister.readPropertyFile(currFiles.get(fname).getPath());
+				IPropContainer newTrans = propPersister.readPropertyFile(translatedFiles.get(fname).getPath());
 
 				Map<String, String> newContents = new LinkedHashMap<>();
 				for (String key : base.getKeys()) {
@@ -87,12 +88,12 @@ public class ProplocImpl {
 	private void processOneProperty(String baseFile, Map<String, File> currFiles, Map<String, File> prevFiles) {
 		// find nnn_ll.properties files for baseFile
 		String pattern = baseFile.replace(".properties", "_..\\.properties");
-		PropFile base = propPersister.readPropertyFile(currFiles.get(baseFile).getPath());
+		IPropContainer base = propPersister.readPropertyFile(currFiles.get(baseFile).getPath());
 
 		for (String fname : currFiles.keySet()) {
 			if (fname.matches(pattern)) {
 				System.out.print(" * processing " + fname + "... ");
-				PropFile lang = propPersister.readPropertyFile(currFiles.get(fname).getPath());
+				IPropContainer lang = propPersister.readPropertyFile(currFiles.get(fname).getPath());
 				PropComparator pc = new PropComparator(lang, base);
 
 				// find keys from base that are not present in lang
@@ -114,7 +115,7 @@ public class ProplocImpl {
 		}
 	}
 
-	private void dumpUntranslatedMessages(PropFile base, String fname, Collection<String> result) {
+	private void dumpUntranslatedMessages(IPropContainer base, String fname, Collection<String> result) {
 		Map<String, String> props = new LinkedHashMap<>();
 		for (String key : result) {
 			props.put(key, base.getStringValue(key));
