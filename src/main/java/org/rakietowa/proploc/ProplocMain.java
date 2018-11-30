@@ -19,8 +19,10 @@ package org.rakietowa.proploc;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.rakietowa.proploc.data.IPropertyPersister;
 import org.rakietowa.proploc.data.impl.FilePropertyPersister;
+import org.rakietowa.proploc.data.impl.FindUntranslatedParam;
 import org.rakietowa.proploc.impl.PropComparator;
-import org.rakietowa.proploc.impl.ProplocImpl;
+import org.rakietowa.proploc.impl.ProplocAnalyzer;
+import org.rakietowa.proploc.impl.ProplocIntegrator;
 
 /**
  * Property based l10n helper.
@@ -44,16 +46,16 @@ public class ProplocMain {
 			comp.compareFilesWithPrint();
 		} else if (args[0].equals("-totr")) {
 			// create files with untranslated strings
-			ProplocImpl impl = new ProplocImpl(persisterImpl);
-			impl.findUntranslated(args[1], args[2]);
+			ProplocAnalyzer impl = new ProplocAnalyzer(persisterImpl);
+			impl.findUntranslated(new FindUntranslatedParam(args[1], args[2]));
 		} else if (args[0].equals("-check")) {
-			// find duplicates, ...
+			// TODO find duplicates, ...
 		} else if (args[0].equals("-integrate")) {
 			if(args.length < 4) {
 				printInfo();
 				return;
 			}
-			ProplocImpl impl = new ProplocImpl(persisterImpl);
+			ProplocIntegrator impl = new ProplocIntegrator(persisterImpl);
 			impl.integrateTranslated(args[1], args[2], args[3]);
 		}
 

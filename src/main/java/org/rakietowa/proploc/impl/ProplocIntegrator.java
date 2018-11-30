@@ -2,9 +2,7 @@ package org.rakietowa.proploc.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,27 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.rakietowa.proploc.data.IPropContainer;
 import org.rakietowa.proploc.data.IPropertyPersister;
 
-public class ProplocImpl {
+public class ProplocIntegrator {
 
 	private IPropertyPersister propPersister;
 
-
-	public ProplocImpl(IPropertyPersister persisterImpl) {
+	public ProplocIntegrator(IPropertyPersister persisterImpl) {
 		propPersister = persisterImpl;
-	}
-
-	public void findUntranslated(String prev, String curr) {
-
-		Map<String, File> prevFiles = propPersister.listFilesInDir(new File(prev));
-		Map<String, File> currFiles = propPersister.listFilesInDir(new File(curr));
-
-		List<String> basePropNames = findBaseProperties(currFiles.keySet());
-
-		for (String baseFile : basePropNames) {
-			System.out.println("Found " + baseFile + ". Looking for translations:");
-			processOneProperty(baseFile, currFiles, prevFiles);
-		}
-
 	}
 
 	public void integrateTranslated(String currentDir, String translationDir, String destDir) {
@@ -43,7 +26,6 @@ public class ProplocImpl {
 		List<String> basePropNames = findBaseProperties(currFiles.keySet());
 		for (String baseFile : basePropNames) {
 			updateOneFile(baseFile, currFiles, translatedFiles, destDir);
-
 		}
 	}
 
@@ -83,45 +65,6 @@ public class ProplocImpl {
 
 	private void writePropertyFile(String fname, String destDir, Map<String, String> newContents) {
 		propPersister.savePropertyFile(destDir + "/" + fname, newContents);
-	}
-
-	private void processOneProperty(String baseFile, Map<String, File> currFiles, Map<String, File> prevFiles) {
-		// find nnn_ll.properties files for baseFile
-		String pattern = baseFile.replace(".properties", "_..\\.properties");
-		IPropContainer base = propPersister.readPropertyFile(currFiles.get(baseFile).getPath());
-
-		for (String fname : currFiles.keySet()) {
-			if (fname.matches(pattern)) {
-				System.out.print(" * processing " + fname + "... ");
-				IPropContainer lang = propPersister.readPropertyFile(currFiles.get(fname).getPath());
-				PropComparator pc = new PropComparator(lang, base);
-
-				// find keys from base that are not present in lang
-				Set<String> result = new LinkedHashSet<>(pc.getKeysOnlyInRight());
-
-				// add those with same text in base and lang
-				result.addAll(pc.getKeysWithSameValues());
-
-				// add changed (base vs old) keys
-				if (prevFiles.containsKey(baseFile)) {
-					pc = new PropComparator(propPersister.readPropertyFile(prevFiles.get(baseFile).getPath()), base);
-					result.addAll(pc.getKeysWithChangedContent());
-				}
-
-				// save to lang-untranslated file
-				dumpUntranslatedMessages(base, fname, result);
-				System.out.println("done.");
-			}
-		}
-	}
-
-	private void dumpUntranslatedMessages(IPropContainer base, String fname, Collection<String> result) {
-		Map<String, String> props = new LinkedHashMap<>();
-		for (String key : result) {
-			props.put(key, base.getStringValue(key));
-		}
-
-		propPersister.savePropertyFile("UNTRANSLATED_" + fname, props);
 	}
 
 	private List<String> findBaseProperties(Set<String> keySet) {

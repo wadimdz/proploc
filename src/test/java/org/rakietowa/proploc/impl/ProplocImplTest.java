@@ -17,12 +17,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.rakietowa.proploc.data.IPropContainer;
 import org.rakietowa.proploc.data.IPropertyPersister;
+import org.rakietowa.proploc.data.impl.FindUntranslatedParam;
 
 public class ProplocImplTest {
 
 
 
-	private ProplocImpl tested = null;
+	private ProplocAnalyzer tested = null;
 
 	@Mock
 	private IPropertyPersister mockPersister;
@@ -33,7 +34,7 @@ public class ProplocImplTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		tested = new ProplocImpl(mockPersister);
+		tested = new ProplocAnalyzer(mockPersister);
 	}
 
 	@Test
@@ -55,22 +56,29 @@ public class ProplocImplTest {
 		final Map<String, String> currBase = mockCurrent(baseName, transName, currDir, currBasePath, currTransPath);
 
 		// when
-		tested.findUntranslated(prevDir, currDir);
+		tested.findUntranslated(new FindUntranslatedParam(prevDir, currDir));
 		
 		// then
 		ArgumentCaptor<String> fileName = ArgumentCaptor.forClass(String.class);
-		Mockito.verify(mockPersister).savePropertyFile(fileName.capture(), mapCaptor.capture());
-		assertEquals("UNTRANSLATED_alala_pl.properties", fileName.getValue());
-		HashMap<String, String> savedMap = mapCaptor.getValue();
-		assertEquals(3, savedMap.size());
+		Mockito.verify(mockPersister, Mockito.times(2)).savePropertyFile(fileName.capture(), mapCaptor.capture());
+		
+		// file with translations same as source
+		assertEquals("untr_alala_pl.properties", fileName.getAllValues().get(1));
+		HashMap<String, String> savedMap = mapCaptor.getAllValues().get(1);
+		assertEquals(1, savedMap.size());
+		// untranslated (base = translation)
+		assertEquals(currBase.get("key5"), savedMap.get("key5"));
+
+		// changed/new/deleted keys/texts
+		assertEquals("alala_pl.properties", fileName.getAllValues().get(0));
+		savedMap = mapCaptor.getAllValues().get(0);
+		assertEquals(2, savedMap.size());
 		assertTrue(savedMap.containsKey("key3"));
 		assertTrue(savedMap.containsKey("key2"));
 		// changed
 		assertEquals(currBase.get("key2"), savedMap.get("key2"));
 		// new
 		assertEquals(currBase.get("key3"), savedMap.get("key3"));
-		// untranslated (base = translation)
-		assertEquals(currBase.get("key5"), savedMap.get("key5"));
 	}
 
 	private Map<String, String> mockCurrent(final String baseName, final String transName, final String currDir,

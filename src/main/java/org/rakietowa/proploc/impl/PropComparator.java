@@ -80,7 +80,7 @@ public class PropComparator {
 		return rightList;
 	}
 
-	public Collection<? extends String> getKeysWithChangedContent() {
+	public Collection<String> getKeysWithChangedContent() {
 		List<String> changed = new ArrayList<>();
 		for (String key : right.getKeys()) {
 			if (left.getKeys().contains(key)) {
@@ -96,7 +96,7 @@ public class PropComparator {
 		return changed;
 	}
 
-	public Collection<? extends String> getKeysWithSameValues() {
+	public Collection<String> getKeysWithSameValues() {
 		List<String> same = new ArrayList<>();
 		for (String key : right.getKeys()) {
 			if (left.getKeys().contains(key)) {
