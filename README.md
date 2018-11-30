@@ -15,11 +15,11 @@ If You have two directories with properties from previous (RelX) and current (Re
 java -jar proploc.jar -totr RelX RelY
 ```
 
-would produce a set of files in current directory "<original_filename>_<lang_code>.properties" containing properties from <original_filename>.properties which have no translation in language-specific properties file or the master text was changed between RelX and RelY. 
-Additionally a file named "untr_<original_filename>_<lang_code>.properties" will contain properties which are potentially untranslated (translation is equal to base text). 
+would produce a set of files in current directory "<original_filename>\_<lang_code>.properties" containing properties from <original_filename>.properties which have no translation in language-specific properties file or the master text was changed between RelX and RelY. 
+Additionally a file named "untr_<original_filename>\_<lang_code>.properties" will contain properties which are potentially untranslated (translation is equal to base text). 
 
 ### Integration
-When translations are done, then put them in a directory (with "<original_filename>_<lang_code>.properties" names) and run:
+When translations are done, then put them in a directory (with "<original_filename>\_<lang_code>.properties" names) and run:
 
 ```
 java -jar proploc.jar -integrate RelY translations RelYnew
